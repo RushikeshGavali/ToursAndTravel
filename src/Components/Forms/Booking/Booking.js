@@ -173,6 +173,10 @@ export class Booking extends Component {
         this.setState({[nam]: val});
     };
 
+    onDepartureLocationSelect = (event) => {
+        console.log(event.target.value);
+    }
+
     render() {
         return (
             <div className="container s1">
@@ -263,6 +267,25 @@ export class Booking extends Component {
                             <div style={styles}> {this.state.nan1} </div>
                             <br/>
                         </div>
+
+                        <div className="row form_submit">
+                            <div className="col-lg-3 simple">
+                                <label htmlFor="children" className="label_text">
+                                    <b>Departure Location</b>
+                                </label>
+                            </div>
+                            <div className="col-lg-9">
+                                <select id="departOptions" name="name4" onChange={this.onDepartureLocationSelect}>
+                                    <option value="Sangli">Sangli</option>
+                                    <option value="Kolhapur">Kolhapur</option>
+                                    <option value="Mumbai">Mumbai</option>
+                                    <option value="Pune">Pune</option>
+                                </select>
+                            </div>
+                            <div style={styles}> {this.state.nan1} </div>
+                            <br/>
+                        </div>
+
                         <div className="box-Charges">
                             {console.log(
                                 "charges" + this.props.match.params.chargeAdult,

@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
 const User = require("./db-models/user");
 const Booking = require('./db-models/booking');
+const ToursInfo = require('./db-models/toursInfo');
 const mongoose = require("mongoose");
 
 const saltRounds = 10;
@@ -65,16 +66,26 @@ app.post("/signIn", (req, res) => {
 });
 
 app.post('/bookTour', (req, res) => {
-    const { userName, adults, children, charges } = req.body;
+    const {userName, adults, children, charges} = req.body;
     const booking = new Booking({
         userName, adults, children, charges
     });
     booking.save().then(response => {
         res.status(200).send();
-    }).catch(error =>{
+    }).catch(error => {
         res.status(500).send();
     })
-})
+});
+
+app.get('/toursInfo', (req, res) => {
+    ToursInfo.find({}).exec((error, toursInfo) => {
+        if(error){
+            res.status(404).send();
+        }else{
+            res.send(toursInfo);
+        }
+    });
+});
 
 app.listen(process.env.PORT || 8080, () => {
     console.log("listening on port 8080");
