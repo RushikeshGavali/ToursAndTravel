@@ -10,11 +10,6 @@ const Historical=()=>{
     useEffect(() => {
         console.log("kfjadklfjlkadsjf");
     })
-    axios.get('/hello').then(result => {
-        console.log("Data from API--", result.data);
-    }).catch(err => {
-        console.log('error');
-    });
 
     const historical=[
         {
