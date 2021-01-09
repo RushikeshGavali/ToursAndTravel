@@ -1,13 +1,10 @@
-.footercontainer{
-    background-color:#20232A;
-    
+.footercontainer {
+  background-color: #20232a;
 }
 
- .list-unstyled{
-    color:white;
-    
-    
-} 
-.footercontainer{
-    text-align: left;
-} 
+.list-unstyled {
+  color: white;
+}
+.footercontainer {
+  text-align: left;
+}
