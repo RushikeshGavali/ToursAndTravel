@@ -67,9 +67,11 @@ app.post("/signIn", (req, res) => {
 });
 
 app.post('/bookTour', (req, res) => {
-    const {userName, adults, children, charges, place} = req.body;
+    const {userName, adults, children, charges, place, departureDate} = req.body;
+    console.log("dateOfDeparture", departureDate);
+
     const booking = new Booking({
-        userName, adults, children, charges, place
+        userName, adults, children, charges, place, departureDate
     });
     booking.save().then(response => {
         res.status(200).send();
@@ -100,7 +102,7 @@ app.get('/tourInfo', (req, res) => {
 
 app.get('/departureCharge', (req, res) => {
     const city = req.query.city;
-    DepartCharge.find({city:city}).exec((error, response)=>{
+    DepartCharge.find({city: city}).exec((error, response) => {
         res.status(200).send(response);
     });
 })

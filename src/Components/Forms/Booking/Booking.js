@@ -96,7 +96,8 @@ export class Booking extends Component {
             adults: this.state.num1,
             children: this.state.num2,
             charges: charges,
-            place: this.props.match.params.location
+            place: this.props.match.params.location,
+            departureDate: this.props.match.params.date
         }).then((response) => {
             this.props.history.push({
                 pathname:

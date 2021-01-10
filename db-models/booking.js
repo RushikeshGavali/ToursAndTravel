@@ -20,9 +20,9 @@ const BookingSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    date: {
-        type: Date,
-        default: Date.now,
+    departureDate: {
+        type: String,
+        required: true,
     },
 });
 const Booking = mongoose.model("Booking", BookingSchema);
