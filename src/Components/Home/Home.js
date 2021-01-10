@@ -13,15 +13,17 @@ import ImageSlider from "../Slider/ImageSlider";
 import {SliderData} from "../Slider/SliderData";
 import TravelCard from "../TravelCard/TravelCard";
 import axios from "axios";
+import {setToursInfoState} from "../../redux-utilities/actions";
+import {connect} from "react-redux";
 
-const Home = () => {
+const Home = (props) => {
 
-    const [info, setInfo] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         axios.get('/toursInfo').then(response => {
             const toursInfo = response.data;
-            setInfo([
+            const info = [
                 {
                     imageSrc: MysorePalace,
                     tourInfo: toursInfo[0]
@@ -58,13 +60,15 @@ const Home = () => {
                     imageSrc: Ratnagiri,
                     tourInfo: toursInfo[8]
                 },
-            ]);
+            ]
+            props.saveToursInfo(info);
+            setIsLoading(false);
         }).catch(error => {
             console.log(error);
         })
-    }, []);
+    }, [props.saveToursInfo]);
 
-    const data = info.map((item, index) => (
+    const data = props.toursInfo.map((item, index) => (
         <div className="col-md-6  col-sm-12 col-lg-4" key={item.tourInfo.title}>
             <Card
                 imgsrc={item.imageSrc}
@@ -74,7 +78,7 @@ const Home = () => {
             />
         </div>
     ));
-    return (
+    return !isLoading ? (
         <div>
             <ImageSlider slides={SliderData}></ImageSlider>
             <div className="container-fluid d-flex justify-content-center">
@@ -82,7 +86,21 @@ const Home = () => {
             </div>
             <TravelCard/>
         </div>
-    );
+    ) : null;
 };
 
-export default Home;
+const mapStateToProps = (state) => {
+    return {
+        toursInfo: state.toursInfo
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        saveToursInfo: (toursInfo) => {
+            return dispatch(setToursInfoState(toursInfo))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
