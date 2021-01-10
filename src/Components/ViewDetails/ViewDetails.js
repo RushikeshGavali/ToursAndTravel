@@ -11,6 +11,7 @@ import Bhimashankar from "../../Assets/WildLife/Bhimashankar.jpg";
 import GirGJ from "../../Assets/WildLife/GirGJ.jpg";
 import Kaziranga from "../../Assets/WildLife/Kaziranga.jpg";
 import axios from "axios";
+import * as jwt from "jsonwebtoken";
 
 function ViewDetails(props) {
 
@@ -67,9 +68,16 @@ function ViewDetails(props) {
     }, [setInfo]);
 
     const bookNowHandler = () => {
-        const departDate = info.departureDate.replaceAll('/', '-');
-        const pathname = "/BookNow/" + info.adultPrice + "/" + info.childPrice + "/" + info.location + "/" + departDate;
-        props.history.push({ pathname });
+        const token = localStorage.getItem('authToken');
+        jwt.verify(token, 'secretKey', function (err, decoded) {
+            if (err) {
+                props.history.push('/Login');
+            } else {
+                const departDate = info.departureDate.replaceAll('/', '-');
+                const pathname = "/BookNow/" + info.adultPrice + "/" + info.childPrice + "/" + info.location + "/" + departDate;
+                props.history.push({pathname});
+            }
+        });
     };
 
     return (

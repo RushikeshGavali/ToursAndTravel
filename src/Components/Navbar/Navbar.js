@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../../Assets/Logo.png";
 import BackDrop from "../Backdrop/BackDrop";
@@ -6,10 +6,22 @@ import MenuButton from "../MenuButton/MenuButton.js";
 import SideDrawer from "../SideDrawer/SideDrawer";
 import SubMenuBackdrop from "../SubMenuBackdrop/SubMenuBackdrop";
 import "./Navbar.css";
+import * as jwt from "jsonwebtoken";
 
 function Navbar() {
 
-  const [authToken, setAuthToken] = useState(localStorage.getItem('authToken'));
+  const [authToken, setAuthToken] = useState('');
+
+  useEffect(()=>{
+    const token = localStorage.getItem('authToken');
+    jwt.verify(token, 'secretKey', function (err, decoded) {
+      if (err) {
+        setAuthToken('');
+      } else {
+        setAuthToken(token);
+      }
+    });
+  }, []);
 
   const [menuState, setMenuState] = useState(false);
   const [hoverFlag, setHoverFlag] = useState(false);
@@ -28,13 +40,13 @@ function Navbar() {
   };
 
   const logOutHandler = () => {
-    if(authToken){
+    if(authToken !== ''){
       localStorage.clear();
-      setAuthToken(null);
+      setAuthToken('');
     }
   }
 
-  const redirectForAuthButton = authToken ? '/' : '/Login';
+  const redirectForAuthButton = authToken !== '' ? '/' : '/Login';
   return (
     <div>
       <SideDrawer open={menuState} clicked={sideDrawerHandler}></SideDrawer>
@@ -124,7 +136,7 @@ function Navbar() {
                   color: "#61DAFB",
                 }}
               >
-                { authToken ? 'Log Out' : 'Login' }
+                { authToken !== '' ? 'Log Out' : 'Login' }
               </NavLink>
             </li>
           </nav>
