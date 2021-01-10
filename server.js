@@ -79,12 +79,23 @@ app.post('/bookTour', (req, res) => {
 
 app.get('/toursInfo', (req, res) => {
     ToursInfo.find({}).exec((error, toursInfo) => {
-        if(error){
+        if (error) {
             res.status(404).send();
-        }else{
+        } else {
             res.send(toursInfo);
         }
     });
+});
+
+app.get('/tourInfo', (req, res) => {
+    console.log(req.query);
+    ToursInfo.find({title: req.query.place}).exec((error, tourInfo) => {
+        if (error) {
+            res.status(404).send();
+        } else {
+            res.status(200).send(tourInfo[0]);
+        }
+    })
 });
 
 app.listen(process.env.PORT || 8080, () => {

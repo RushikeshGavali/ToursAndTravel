@@ -74,7 +74,7 @@ const Home = (props) => {
                 imgsrc={item.imageSrc}
                 title={item.tourInfo.title}
                 info={item.tourInfo.info}
-                index={index}
+                index={item.tourInfo.title}
             />
         </div>
     ));
