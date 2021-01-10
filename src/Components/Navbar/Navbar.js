@@ -8,6 +8,9 @@ import SubMenuBackdrop from "../SubMenuBackdrop/SubMenuBackdrop";
 import "./Navbar.css";
 
 function Navbar() {
+
+  const [authToken, setAuthToken] = useState(localStorage.getItem('authToken'));
+
   const [menuState, setMenuState] = useState(false);
   const [hoverFlag, setHoverFlag] = useState(false);
   const menuClickHandler = () => {
@@ -24,6 +27,14 @@ function Navbar() {
     setHoverFlag(false);
   };
 
+  const logOutHandler = () => {
+    if(authToken){
+      localStorage.clear();
+      setAuthToken(null);
+    }
+  }
+
+  const redirectForAuthButton = authToken ? '/' : '/Login';
   return (
     <div>
       <SideDrawer open={menuState} clicked={sideDrawerHandler}></SideDrawer>
@@ -105,15 +116,15 @@ function Navbar() {
                 Contact Us
               </NavLink>
             </li>
-            <li className="NavigationItem">
+            <li className="NavigationItem" onClick={logOutHandler}>
               <NavLink
-                to="/Login"
+                to={redirectForAuthButton}
                 activeStyle={{
                   borderBottom: "2px solid #61DAFB",
                   color: "#61DAFB",
                 }}
               >
-                Login
+                { authToken ? 'Log Out' : 'Login' }
               </NavLink>
             </li>
           </nav>

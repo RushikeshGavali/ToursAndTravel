@@ -27,6 +27,7 @@ export class Registration extends Component {
       errormessage3: "",
       password: "",
       password1: "",
+      signUpFailed: false
     };
   }
 
@@ -53,7 +54,13 @@ export class Registration extends Component {
         }
       )
       .then((response) => {
-        console.log(response);
+        if(response.data.error){
+            this.setState({...this.state, signUpFailed: true});
+        }else{
+          localStorage.setItem('authToken', response.data.token);
+          this.props.history.push('/');
+          window.location.reload();
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -71,8 +78,8 @@ export class Registration extends Component {
         err = <strong>⚠Name Should not be blank</strong>;
       }
     }
+    this.setState({...this.state, signUpFailed: false});
     this.setState({ errormessage: err });
-
     this.setState({ [nam]: val });
   };
 
@@ -220,6 +227,7 @@ export class Registration extends Component {
               Submit
             </button>
           </form>
+          { this.state.signUpFailed ? <p className="sign-up-failed">This username already exists.</p>: null }
         </center>
       </div>
     );
