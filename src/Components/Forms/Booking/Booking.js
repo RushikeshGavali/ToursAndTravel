@@ -24,7 +24,8 @@ export class Booking extends Component {
             password1: "",
             num1: 0,
             num2: 0,
-            departCharges: 0
+            departCharges: 0,
+            departureVenue: "Sangli"
         };
     }
 
@@ -100,15 +101,14 @@ export class Booking extends Component {
             departureDate: this.props.match.params.date
         }).then((response) => {
             this.props.history.push({
-                pathname:
-                    "/SuccessMessage/" +
-                    this.props.match.params.location +
-                    "/" +
-                    this.state.num2 +
-                    "/" +
-                    this.state.num1 +
-                    "/" +
-                    this.props.match.params.date,
+                pathname: '/SuccessMessage',
+                state: {
+                    place: this.props.match.params.location,
+                    adults: this.state.num1,
+                    children: this.state.num2,
+                    departureDate: this.props.match.params.date,
+                    departureVenue: this.state.departureVenue
+                }
             });
         }).catch((error) => {
             console.log(error);
@@ -183,7 +183,7 @@ export class Booking extends Component {
         axios.get('/departureCharge', {
             params: {city: event.target.value}
         }).then(response => {
-            this.setState({...this.state, departCharges: response.data[0].charges});
+            this.setState({...this.state, departCharges: response.data[0].charges, departureVenue: event.target.value});
         });
     }
 
@@ -249,6 +249,7 @@ export class Booking extends Component {
                                     class="input1"
                                     name="name2"
                                     id="adults"
+                                    required
                                     placeholder="Enter no of adults "
                                     value={this.state.num1}
                                     onChange={this.handleNum1}
@@ -325,7 +326,7 @@ export class Booking extends Component {
                             </h6>
                         </div>
 
-                        <button type="submit" className="button button1">
+                        <button type="submit" className="button button1" disabled={this.state.num1 <= 0}>
                             Submit
                         </button>
                     </form>

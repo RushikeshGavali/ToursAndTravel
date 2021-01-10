@@ -4,18 +4,21 @@ export default function BookingSuccess(props) {
   const homeHandler = () => {
     props.history.push("/");
   };
+
+  const { place, adults, children, departureDate, departureVenue } = props.location.state;
+
   return (
     <div className="booking-success-box">
       <h1 style={{ color: "green" }}>Enjoy Tour With Your Loved Ones..!!</h1>
       <div className="booking-datails">
         <h3 className="booking-datails-text">Booking Details</h3>
-        <p>Destination : {props.match.params.location}</p>
+        <p>Destination : {place}</p>
         <p>
-          Seats Reserved : {props.match.params.noOfChild}-Kids{" "}
-          {props.match.params.noOfAdults}-Adults
+          Seats Reserved : {children}-Kids{" "}
+          {adults}-Adults
         </p>
-        <p>Date of Departure: {props.match.params.date}</p>
-        <p>Departure Venue:Pune</p>
+        <p>Date of Departure: {departureDate}</p>
+        <p>Departure Venue: {departureVenue}</p>
         <h6>
           <b>
             <i>

@@ -54,7 +54,7 @@ class App extends Component {
               component={Booking}
             />
             <Route
-              path="/SuccessMessage/:location/:noOfChild/:noOfAdults/:date"
+              path="/SuccessMessage"
               exact
               component={BookingSuccess}
             />
