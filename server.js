@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 const User = require("./db-models/user");
 const Booking = require('./db-models/booking');
 const ToursInfo = require('./db-models/toursInfo');
+const DepartCharge = require('./db-models/departCharges');
 const mongoose = require("mongoose");
 
 const saltRounds = 10;
@@ -66,9 +67,9 @@ app.post("/signIn", (req, res) => {
 });
 
 app.post('/bookTour', (req, res) => {
-    const {userName, adults, children, charges} = req.body;
+    const {userName, adults, children, charges, place} = req.body;
     const booking = new Booking({
-        userName, adults, children, charges
+        userName, adults, children, charges, place
     });
     booking.save().then(response => {
         res.status(200).send();
@@ -88,7 +89,6 @@ app.get('/toursInfo', (req, res) => {
 });
 
 app.get('/tourInfo', (req, res) => {
-    console.log(req.query);
     ToursInfo.find({title: req.query.place}).exec((error, tourInfo) => {
         if (error) {
             res.status(404).send();
@@ -97,6 +97,13 @@ app.get('/tourInfo', (req, res) => {
         }
     })
 });
+
+app.get('/departureCharge', (req, res) => {
+    const city = req.query.city;
+    DepartCharge.find({city:city}).exec((error, response)=>{
+        res.status(200).send(response);
+    });
+})
 
 app.listen(process.env.PORT || 8080, () => {
     console.log("listening on port 8080");

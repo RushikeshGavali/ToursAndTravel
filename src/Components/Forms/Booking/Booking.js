@@ -10,6 +10,7 @@ var styles = {
 };
 
 export class Booking extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -23,6 +24,7 @@ export class Booking extends Component {
             password1: "",
             num1: 0,
             num2: 0,
+            departCharges: 0
         };
     }
 
@@ -88,33 +90,36 @@ export class Booking extends Component {
         }
     };
 
-    submitHandler = (event) => {
-        event.preventDefault();
-        const charges = this.state.num1 * this.props.match.params.chargeAdult + this.state.num2 * this.props.match.params.chargeChildren
+    bookTour = (charges) => {
         axios.post('/bookTour', {
             userName: this.state.username,
             adults: this.state.num1,
             children: this.state.num2,
-            charges: charges
+            charges: charges,
+            place: this.props.match.params.location
         }).then((response) => {
-            console.log(response);
+            this.props.history.push({
+                pathname:
+                    "/SuccessMessage/" +
+                    this.props.match.params.location +
+                    "/" +
+                    this.state.num2 +
+                    "/" +
+                    this.state.num1 +
+                    "/" +
+                    this.props.match.params.date,
+            });
         }).catch((error) => {
             console.log(error);
         });
+    }
 
-        this.props.history.push({
-            pathname:
-                "/SuccessMessage/" +
-                this.props.match.params.location +
-                "/" +
-                this.state.num2 +
-                "/" +
-                this.state.num1 +
-                "/" +
-                this.props.match.params.date,
-        });
-
+    submitHandler = (event) => {
+        event.preventDefault();
+        const charges = this.state.num1 * this.props.match.params.chargeAdult + this.state.num2 * this.props.match.params.chargeChildren + this.state.departCharges;
+        this.bookTour(charges);
     };
+
     mailChangeHandler = (event) => {
         event.preventDefault();
         let nam = event.target.name;
@@ -174,7 +179,11 @@ export class Booking extends Component {
     };
 
     onDepartureLocationSelect = (event) => {
-        console.log(event.target.value);
+        axios.get('/departureCharge', {
+            params: {city: event.target.value}
+        }).then(response => {
+            this.setState({...this.state, departCharges: response.data[0].charges});
+        });
     }
 
     render() {
@@ -287,10 +296,6 @@ export class Booking extends Component {
                         </div>
 
                         <div className="box-Charges">
-                            {console.log(
-                                "charges" + this.props.match.params.chargeAdult,
-                                this.props.match.params.chargeChildren
-                            )}
                             <h6>
                                 Charges for adults :{" "}
                                 {this.state.num1 * this.props.match.params.chargeAdult}
@@ -300,9 +305,22 @@ export class Booking extends Component {
                                 {this.state.num2 * this.props.match.params.chargeChildren}
                             </h6>
                             <h6>
+                                Departure Charges:&nbsp;
+                                {this.state.num1 > 0 || this.state.num2 > 0 ? (
+                                        this.state.departCharges
+                                    )
+                                    : 0
+                                }
+                            </h6>
+                            <h6>
                                 Total Charges:&nbsp;
-                                {this.state.num1 * this.props.match.params.chargeAdult +
-                                this.state.num2 * this.props.match.params.chargeChildren}
+                                {this.state.num1 > 0 || this.state.num2 > 0 ? (
+                                        this.state.num1 * this.props.match.params.chargeAdult +
+                                        this.state.num2 * this.props.match.params.chargeChildren +
+                                        this.state.departCharges
+                                    )
+                                    : 0
+                                }
                             </h6>
                         </div>
 

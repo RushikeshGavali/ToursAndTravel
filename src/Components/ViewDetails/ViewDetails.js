@@ -67,17 +67,9 @@ function ViewDetails(props) {
     }, [setInfo]);
 
     const bookNowHandler = () => {
-        props.history.push({
-            pathname:
-                "/BookNow/" +
-                info.adultPrice +
-                "/" +
-                info.childPrice +
-                "/" +
-                info.location +
-                "/" +
-                info.departureDate,
-        });
+        const departDate = info.departureDate.replaceAll('/', '-');
+        const pathname = "/BookNow/" + info.adultPrice + "/" + info.childPrice + "/" + info.location + "/" + departDate;
+        props.history.push({ pathname });
     };
 
     return (
