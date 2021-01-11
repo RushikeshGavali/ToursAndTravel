@@ -9,6 +9,7 @@ const Booking = require('./db-models/booking');
 const ToursInfo = require('./db-models/toursInfo');
 const DepartCharge = require('./db-models/departCharges');
 const mongoose = require("mongoose");
+const nodemailer=require('nodemailer');
 
 const saltRounds = 10;
 
@@ -90,6 +91,34 @@ app.get('/toursInfo', (req, res) => {
         }
     });
 });
+app.post("/sendMail",(req,res)=>{
+    var transportor=nodemailer.createTransport({
+        service:'gmail',
+        auth:{
+            user:'tourismindia777@gmail.com',
+            pass:'Pass@word'
+        }
+    });
+    const message=
+    `Congratulations,\n\tBooking Datails are as follows:\n
+    Email:${req.body.email}+\nplace:${req.body.place}
+    \nadults:${req.body.adults}
+    \nchildren:${req.body.children}
+    \ndepartureDate:${req.body.departureDate}
+    \ndepartureVenue:${req.body.departureVenue}`
+    var mailOptions={
+        from:'tourismindia777@gmail.com',
+        to:req.body.email,
+        subject:'tours and travel',
+        text:message
+    }
+    transportor.sendMail(mailOptions,function(err,info){
+        if(err)
+            console.log("Hello"+err)
+        else
+            console.log('Email sent'+info.response)
+    })
+})
 app.get("/users",(req,res)=>{
   User.find({}).exec((error,user)=>{
     if(error)

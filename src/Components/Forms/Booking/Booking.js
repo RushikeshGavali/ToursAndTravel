@@ -107,7 +107,8 @@ export class Booking extends Component {
                     adults: this.state.num1,
                     children: this.state.num2,
                     departureDate: this.props.match.params.date,
-                    departureVenue: this.state.departureVenue
+                    departureVenue: this.state.departureVenue,
+                    email:this.state.email
                 }
             });
         }).catch((error) => {
@@ -135,7 +136,7 @@ export class Booking extends Component {
             }
         }
         this.setState({errormessage1: err});
-
+        
         this.setState({[nam]: val});
     };
     passChangeHandler = (event) => {

@@ -12,7 +12,8 @@ export default class Payment extends Component {
             adults: this.props.location.state.adults,
             children: this.props.location.state.children,
             departureDate: this.props.location.state.departureDate,
-            departureVenue: this.props.location.state.departureVenue
+            departureVenue: this.props.location.state.departureVenue,
+            email:this.props.location.state.email
         }
     });
  }

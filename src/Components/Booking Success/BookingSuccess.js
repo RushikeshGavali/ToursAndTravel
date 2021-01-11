@@ -1,11 +1,30 @@
 import React from "react";
 import "../Forms/Form.css";
+import {useEffect} from 'react';
+import axios from 'axios';
+
 export default function BookingSuccess(props) {
+  useEffect(()=>{
+    const data=props.location.state;
+    console.log("Mail"+data.email)
+    axios.post('/sendMail',{
+      email:data.email,
+      place:data.place,
+      adults:data.adults,
+      children:data.children,
+      departureDate:data.departureDate,
+      departureVenue:data.departureVenue
+    }).
+    then(response=>{
+      console.log(response);
+    })
+  },[])
   const homeHandler = () => {
     props.history.push("/");
   };
 
-  const { place, adults, children, departureDate, departureVenue } = props.location.state;
+
+  const { place, adults, children, departureDate, departureVenue ,email} = props.location.state;
 
   return (
     <div className="booking-success-box">

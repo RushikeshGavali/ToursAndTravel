@@ -131,10 +131,10 @@ function Navbar() {
             <li className="NavigationItem" onClick={logOutHandler}>
               <NavLink
                 to={redirectForAuthButton}
-                activeStyle={{
+                activeStyle={authToken==''?{
                   borderBottom: "2px solid #61DAFB",
                   color: "#61DAFB",
-                }}
+                }:{}}
               >
                 { authToken !== '' ? 'Log Out' : 'Login' }
               </NavLink>
