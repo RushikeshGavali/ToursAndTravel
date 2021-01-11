@@ -56,9 +56,8 @@ function Navbar() {
         <div id="menu">
           <MenuButton click={menuClickHandler}></MenuButton>
 
-          <div className="searchBar">
-            <i class="fa fa-search" style={{ color: "#61DFFB" }}></i>
-            <input type="text" placeholder="Search" />
+          <div className="appTitle">
+            Best Travels
           </div>
           <nav className="nav DesktopOnly">
             <li className="NavigationItem">

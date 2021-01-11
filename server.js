@@ -107,16 +107,16 @@ app.post("/sendMail",(req,res)=>{
         }
     });
     const message=
-    `Congratulations,\n\tBooking Datails are as follows:\n
-    Email:${req.body.email}+\nplace:${req.body.place}
-    \nadults:${req.body.adults}
-    \nchildren:${req.body.children}
-    \ndepartureDate:${req.body.departureDate}
-    \ndepartureVenue:${req.body.departureVenue}`
+    `Congratulations,\n\tBooking Details are as follows:\n
+    Email:${req.body.email}+\n Place:${req.body.place}
+    \nAdults:${req.body.adults}
+    \nChildren:${req.body.children}
+    \nDeparture Date:${req.body.departureDate}
+    \nDeparture Venue:${req.body.departureVenue}`
     var mailOptions={
         from:'tourismindia777@gmail.com',
         to:req.body.email,
-        subject:'tours and travel',
+        subject:'Tours and Travels',
         text:message
     }
     transportor.sendMail(mailOptions,function(err,info){
