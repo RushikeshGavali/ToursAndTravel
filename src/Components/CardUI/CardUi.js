@@ -11,7 +11,7 @@ const Card = (props) => {
             src={props.imgsrc}
             alt="Goa image1"
             className="card-img-top"
-          ></img>
+          />
         </div>
         <div className="card-body text-dark">
           <h4 className="card-title">{props.title}</h4>

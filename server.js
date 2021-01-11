@@ -83,13 +83,20 @@ app.post('/bookTour', (req, res) => {
 });
 
 app.get('/toursInfo', (req, res) => {
-    ToursInfo.find({}).exec((error, toursInfo) => {
-        if (error) {
-            res.status(404).send();
-        } else {
-            res.send(toursInfo);
-        }
-    });
+    const type = req.query.type;
+    if (type) {
+        ToursInfo.find().where('type').in(type).exec((error, toursInfo) => {
+            res.status(200).send(toursInfo);
+        })
+    } else {
+        ToursInfo.find({}).exec((error, toursInfo) => {
+            if (error) {
+                res.status(404).send();
+            } else {
+                res.send(toursInfo);
+            }
+        });
+    }
 });
 app.post("/sendMail",(req,res)=>{
     var transportor=nodemailer.createTransport({

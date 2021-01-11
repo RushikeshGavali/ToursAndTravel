@@ -1,64 +1,56 @@
-import React, { useEffect } from "react";
-import axios from "axios";
+import React, {useEffect, useState} from "react";
 import Card from "../CardUI/CardUi.js";
 import hawamahal from "../../Assets/Historical/hawamahal.jpg";
 import MysorePalace from "../../Assets/Historical/MysorePalace.jpg";
 import Tajmahal from "../../Assets/Historical/Tajmahal.jpg";
+import axios from "axios";
 
 const Historical = () => {
-  useEffect(() => {
-    console.log("kfjadklfjlkadsjf");
-  });
 
-  const historical = [
-    {
-      imageSrc: MysorePalace,
-      type: "Historical",
-      title: "MysorePalace",
-      info:
-        "North Goa is one of the two districts that make up the state of Goa in India.",
-      location: "Mysore",
-      adultPrice: 6500,
-      childPrice: 3000,
-      departureDate: "11/5/2021",
-      noOfDays: 3,
-    },
-    {
-      imageSrc: Tajmahal,
-      type: "Historical",
-      title: "Tajmahal",
-      info:
-        "North Goa is one of the two districts that make up the state of Goa in India.",
-      location: "Agra",
-      adultPrice: 5500,
-      childPrice: 2000,
-      departureDate: "13/5/2021",
-      noOfDays: 2,
-    },
-    {
-      imageSrc: hawamahal,
-      type: "Historical",
-      title: "hawamahal",
-      info:
-        "North Goa is one of the two districts that make up the state of Goa in India.",
-      location: "Jaipur",
-      adultPrice: 7000,
-      childPrice: 3000,
-      departureDate: "26/1/2021",
-      noOfDays: 3,
-    },
-  ];
-  const data = historical.map((item) => (
-    <div className="col-md-4  col-sm-12" key={item.title}>
-      <Card imgsrc={item.imageSrc} title={item.title} info={item.info} />
-    </div>
-  ));
-  return (
-    <div>
-      <div className="container-fluid d-flex justify-content-center">
-        <div className="row">{data}</div>
-      </div>
-    </div>
-  );
+    const [info, setInfo] = useState({});
+    useEffect(() => {
+        axios.get('/toursInfo', {
+            params: {
+                type: 'Historical'
+            }
+        }).then(response => {
+            const descriptions = {};
+            response.data.forEach(data => {
+                descriptions[data.title] = data.info;
+            })
+            setInfo(descriptions);
+        })
+    }, []);
+
+    const tourData = [
+        {
+            imageSrc: MysorePalace,
+            name: "MysorePalace",
+            info: info['MysorePalace']
+        },
+        {
+            imageSrc: Tajmahal,
+            name: "Tajmahal",
+            info: info['Tajmahal']
+        },
+        {
+            imageSrc: hawamahal,
+            name: "hawamahal",
+            info: info['hawamahal']
+        },
+    ];
+
+    const data = tourData.map((item) => (
+        <div className="col-md-4  col-sm-12" key={item.name}>
+            <Card imgsrc={item.imageSrc} title={item.name} info={item.info} index={item.name}/>
+        </div>
+    ));
+    return (
+        <div>
+            <div className="container-fluid d-flex justify-content-center">
+                <div className="row">{data}</div>
+            </div>
+        </div>
+    );
 };
 export default Historical;
