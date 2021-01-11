@@ -22,6 +22,7 @@ import BookingSuccess from "./Components/Booking Success/BookingSuccess";
 import Control from "./Components/LoginAndSignUp/Control";
 import Footer from "./Components/Footer/FooterComp";
 import WeekendGateways from "./Components/WeekendGateway/WeekendGateways";
+import Payment from './Components/Payment/Payment'
 class App extends Component {
   render() {
     const routing = (
@@ -57,6 +58,11 @@ class App extends Component {
               path="/SuccessMessage"
               exact
               component={BookingSuccess}
+            />
+            <Route
+              path="/Payment"
+              exact
+              component={Payment}
             />
             <Redirect to="/"></Redirect>
           </Switch>

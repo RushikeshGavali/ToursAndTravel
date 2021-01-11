@@ -46,6 +46,7 @@ app.post("/signup", (req, res) => {
     });
 });
 
+
 app.post("/signIn", (req, res) => {
     const {userName, password} = req.body;
     User.findOne({userName: userName}).exec((err, user) => {
@@ -89,7 +90,20 @@ app.get('/toursInfo', (req, res) => {
         }
     });
 });
+app.get("/users",(req,res)=>{
+  User.find({}).exec((error,user)=>{
+    if(error)
+    { 
+       res.status(404).send();
+    }
+    else
+    {
+      res.status(200).send(user);
+    }
+    })
 
+
+})
 app.get('/tourInfo', (req, res) => {
     ToursInfo.find({title: req.query.place}).exec((error, tourInfo) => {
         if (error) {

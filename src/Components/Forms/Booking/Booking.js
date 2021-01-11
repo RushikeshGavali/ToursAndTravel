@@ -101,7 +101,7 @@ export class Booking extends Component {
             departureDate: this.props.match.params.date
         }).then((response) => {
             this.props.history.push({
-                pathname: '/SuccessMessage',
+                pathname: '/Payment',
                 state: {
                     place: this.props.match.params.location,
                     adults: this.state.num1,
